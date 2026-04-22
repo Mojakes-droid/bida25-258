@@ -39,6 +39,8 @@ section h3{
     border-radius: 12px;
     color: #092448;
 }
+
+
 nav{
     background: #0f172a;
     padding: 12px 24px;
@@ -64,3 +66,57 @@ nav a:hover, nav a:focus{
     color: #fff;
 }
 
+.hero{
+    position: relative;
+    background-image: url(image.jpeg/handlys-background.jpeg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    
+}
+
+.hero::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero .container {
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: lightcyan;
+    position: relative;
+}
+
+.topnav #myLinks {
+    display: none;
+}
+
+.topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+}
+.topnav a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+.active {
+    background-color: #04AA6D;
+    color: white;
+}
