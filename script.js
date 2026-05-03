@@ -9,7 +9,7 @@ function myFunction() {
     }
 }
 
-// ===== HANDLY's Inventory - Hover Float Effect =====
+
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor: pointer;
     }
     
-    /* Float animation only plays on hover 🎈 */
     img:hover {
       animation: hoverFloat 1.5s ease-in-out infinite;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(style);
   
-  console.log(`✨ Hover-float ready on ${images.length} images`);
+  console.log(` Hover-float ready on {images.length} images`);
 });
 
 
