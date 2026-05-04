@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const images = document.querySelectorAll('img');
   
-  // Inject the hover animation styles
+    
   const style = document.createElement('style');
   style.textContent = `
     img {
@@ -37,5 +37,129 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log(` Hover-float ready on {images.length} images`);
 });
+// ===== HANDLY's - Site-wide Script =====
+document.addEventListener('DOMContentLoaded', () => {
+
+
+  const style = document.createElement('style');
+  style.textContent = `
+    img { transition: transform .35s ease, box-shadow .35s ease; }
+    img:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(0,0,0,.25);
+    }
+    .scroll-top {
+      position: fixed; bottom: 25px; right: 25px;
+      width: 45px; height: 45px; border-radius: 50%;
+      background: rgb(143,44,14); color: #fff; border: none;
+      font-size: 22px; cursor: pointer; display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.25); z-index: 999;
+    }
+    .scroll-top:hover { background: rgb(110,30,5); }
+    .nav-active { color: rgb(143,44,14) !important; font-weight: bold; }
+    .error-input { border: 2px solid red !important; }
+    .form-msg { margin-top: 10px; font-weight: bold; }
+  `;
+  document.head.appendChild(style);
+
+
+ 
+
+
+  const topBtn = document.createElement('button');
+  topBtn.className = 'scroll-top';
+  topBtn.innerHTML = '↑';
+  topBtn.title = 'Back to top';
+  document.body.appendChild(topBtn);
+
+  window.addEventListener('scroll', () => {
+    topBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+  });
+  topBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+
+  
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inputs = form.querySelectorAll('input, textarea');
+      let valid = true;
+
+      inputs.forEach(i => {
+        i.classList.remove('error-input');
+        if (!i.value.trim()) { i.classList.add('error-input'); valid = false; }
+        if (i.type === 'email' && !/^\S+@\S+\.\S+$/.test(i.value)) {
+          i.classList.add('error-input'); valid = false;
+        }
+      });
+
+     
+      const old = form.querySelector('.form-msg');
+      if (old) old.remove();
+
+      const msg = document.createElement('p');
+      msg.className = 'form-msg';
+      if (!valid) {
+        msg.textContent = 'Please fill in all fields correctly.';
+        msg.style.color = 'red';
+      } else {
+        msg.textContent = 'Thank you! Your message has been sent.';
+        msg.style.color = 'green';
+        form.reset();
+      }
+      form.appendChild(msg);
+    });
+  }
+
+
+  const feedback = document.querySelector('.feedback-stars');
+  if (feedback) {
+    feedback.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.textContent = '★';
+      star.style.cssText = 'font-size:32px;cursor:pointer;color:#ccc;margin:0 4px;';
+      star.addEventListener('mouseover', () => paintStars(i));
+      star.addEventListener('click', () => {
+        feedback.dataset.rating = i;
+        paintStars(i, true);
+      });
+      feedback.appendChild(star);
+    }
+    feedback.addEventListener('mouseleave', () => {
+      paintStars(feedback.dataset.rating || 0, true);
+    });
+    function paintStars(n, locked = false) {
+      [...feedback.children].forEach((s, idx) => {
+        s.style.color = idx < n ? '#f5b301' : '#ccc';
+      });
+    }
+  }
+
+
+  const cards = document.querySelectorAll('.card, section');
+  if ('IntersectionObserver' in window && cards.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.style.transition = 'opacity .6s ease, transform .6s ease';
+          en.target.style.opacity = 1;
+          en.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(c => {
+      c.style.opacity = 0;
+      c.style.transform = 'translateY(30px)';
+      io.observe(c);
+    });
+  }
+
+});
+
 
 
