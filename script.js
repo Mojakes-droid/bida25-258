@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log(` Hover-float ready on {images.length} images`);
 });
-// ===== HANDLY's - Site-wide Script =====
+
 document.addEventListener('DOMContentLoaded', () => {
 
 
