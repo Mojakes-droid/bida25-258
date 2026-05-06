@@ -161,5 +161,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// === Auto-inject Bootstrap hamburger menu ===
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Make sure Bootstrap's JS bundle is loaded (needed for the toggle to work)
+  if (!window.bootstrap) {
+    const bs = document.createElement("script");
+    bs.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
+    document.body.appendChild(bs);
+  }
+
+  const navbar = document.querySelector("nav.navbar");
+  if (!navbar) return;
+
+  const container = navbar.querySelector(".container") || navbar;
+  const navList = container.querySelector("ul.navbar-nav");
+  if (!navList) return;
+
+  // 2. Build the hamburger button
+  const toggler = document.createElement("button");
+  toggler.className = "navbar-toggler";
+  toggler.type = "button";
+  toggler.setAttribute("data-bs-toggle", "collapse");
+  toggler.setAttribute("data-bs-target", "#mainNav");
+  toggler.setAttribute("aria-controls", "mainNav");
+  toggler.setAttribute("aria-expanded", "false");
+  toggler.setAttribute("aria-label", "Toggle navigation");
+  toggler.innerHTML = `<span class="navbar-toggler-icon"></span>`;
+
+  // 3. Wrap the existing <ul> in a collapsible div
+  const collapseWrapper = document.createElement("div");
+  collapseWrapper.className = "collapse navbar-collapse";
+  collapseWrapper.id = "mainNav";
+
+  navList.classList.add("ms-auto"); // push links to the right
+  navList.parentNode.insertBefore(collapseWrapper, navList);
+  collapseWrapper.appendChild(navList);
+
+  // 4. Insert hamburger button right before the collapsible div
+  container.insertBefore(toggler, collapseWrapper);
+
+  // 5. Make sure navbar has the expand class so it collapses below lg
+  if (![...navbar.classList].some(c => c.startsWith("navbar-expand-"))) {
+    navbar.classList.add("navbar-expand-lg");
+  }
+});
+
 
 
